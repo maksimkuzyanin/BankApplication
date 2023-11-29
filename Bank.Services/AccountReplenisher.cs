@@ -6,6 +6,12 @@ namespace Bank.Services
 {
     public class AccountReplenisher : IReplenisher<Account>
     {
+        /// <summary>
+        ///     Пополняет счет
+        /// </summary>
+        /// <param name="sum"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Account Replenish(decimal sum, int id)
         {
             var dao = new AccountDao();
