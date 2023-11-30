@@ -1,0 +1,116 @@
+﻿<Page x:Class="Bank.App.Pages.AccountsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AccountsPage"
+      Loaded="AccountsPage_OnLoaded">
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Styles/CommonStyles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="Height" Value="25" />
+                    <Setter Property="Margin" Value="5,0,0,0" />
+                </Style>
+
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="80*" />
+        </Grid.RowDefinitions>
+
+        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Label VerticalAlignment="Center">
+                Клиент
+            </Label>
+
+            <ComboBox
+                x:Name="searchBox"
+                IsTextSearchEnabled="False"
+                IsEditable="True"
+                GotFocus="GotFocus_EnhanceComboSearch"
+                PreviewTextInput="PreviewTextInput_EnhanceComboSearch"
+                PreviewKeyUp="PreviewKeyUp_EnhanceComboSearch"
+                DropDownOpened="DropDownOpened_EnhanceComboSearch"
+                DropDownClosed="DropDownClosed_EnhanceComboSearch"
+                DataObject.Pasting="Pasting_EnhanceComboSearch"
+                TextSearch.TextPath="Name">
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBoxItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel IsVirtualizing="True" IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Path=Name}" />
+                        </DockPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+
+        </WrapPanel>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="1">
+            <Button Click="LoadClick_Button">Загрузить</Button>
+            <Button Click="OpenAccount" x:Name="OpenBtn">Открыть счет</Button>
+            <Button Click="CloseAccount" x:Name="CloseBtn">Закрыть счет</Button>
+            <Button Click="Replenish" x:Name="ReplenishBtn">Пополнить счет</Button>
+            <Button Click="Transfer" x:Name="TransferBtn">Перевести</Button>
+            <Button Click="GetOperationsHistory" x:Name="HistoryBtn" Width="110">История операций</Button>
+        </StackPanel>
+
+        <ListView x:Name="PersonAccountsList" Grid.Row="2"
+                  SelectionChanged="SelectionChanged_PersonAccountsList">
+            <ListView.View>
+
+                <GridView
+                    ColumnHeaderToolTip="Информация о счете">
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Balance}"
+                                    Header="Баланс" Width="100" />
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=OpenDate}"
+                                    Header="Дата открытия" Width="100" />
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=CloseDate}"
+                                    Header="Дата закрытия" Width="100" />
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=DaysPeriod}"
+                                    Header="Период" Width="100" />
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=AccountType}"
+                                    Header="Тип вклада" Width="100" />
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+
+        <xctk:BusyIndicator x:Name="BusyIndicator" Grid.Row="2"
+                            IsBusy="False" BusyContent="Подождите..." />
+
+    </Grid>
+</Page>

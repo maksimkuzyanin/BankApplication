@@ -1,0 +1,51 @@
+﻿<Page x:Class="Bank.App.Pages.AccountOpenPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AccountOpenPage">
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary Source="/Styles/CommonStyles.xaml" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="90*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal">
+            <Button Click="GoBack">Вернуться</Button>
+            <Button Click="OpenAccount">Открыть</Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <WrapPanel>
+                <Label>Дата открытия</Label>
+                <Label
+                    Margin="0"
+                    Content="{Binding Source={x:Static sys:DateTime.Today}}" />
+            </WrapPanel>
+            <WrapPanel>
+                <Label>Баланс</Label>
+                <TextBox x:Name="BALANCE" />
+            </WrapPanel>
+            <WrapPanel>
+                <Label>Тип</Label>
+                <ComboBox x:Name="ACCOUNTTYPE">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Path=Name}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </WrapPanel>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -1,0 +1,26 @@
+﻿<Project>
+	<Target Name="CopyDLLs" AfterTargets="Build;Rebuild;CopyToOutputDir" Condition="'$(TargetFramework)' == 'net471'">
+		<ItemGroup>
+			<_CopyItems Include="$(TargetDir)\*.exe" />
+			<_CopyItems Include="$(TargetDir)\*.dll" />
+			<_CopyItems Include="$(TargetDir)\*.pdb" />
+			<_CopyItems Include="$(TargetDir)\*.xml" />
+			<_CopyItems Include="$(TargetDir)\*.config" />
+		</ItemGroup>
+		<Copy SourceFiles="@(_CopyItems)" DestinationFolder="..\bin\Debug\net471" SkipUnchangedFiles="true" Retries="5"/>
+		<Message Importance="High" Text="Project output was published to bin\debug" />
+	</Target>
+
+
+	<Target Name="CopyCoreDLLs" AfterTargets="CopyDLLs" Condition="'$(TargetFramework)' != 'net471'">
+		<ItemGroup>
+			<_CopyItems Include="$(TargetDir)\*.exe" />
+			<_CopyItems Include="$(TargetDir)\*.dll" />
+			<_CopyItems Include="$(TargetDir)\*.pdb" />
+			<_CopyItems Include="$(TargetDir)\*.xml" />
+			<_CopyItems Include="$(TargetDir)\*.config" />
+		</ItemGroup>
+		<Copy SourceFiles="@(_CopyItems)" DestinationFolder="..\bin\Debug\net6.0" SkipUnchangedFiles="true" Retries="5"/>
+		<Message Importance="High" Text="Project output was published to bin\debug" />
+	</Target>
+</Project>
